@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog App</title>
+</head>
+<body>
+  <h1>Blog App</h1>
+
+  <!-- Přihlášení -->
+  <h2>Přihlášení</h2>
+  <form id="loginForm">
+    <input type="text" id="loginUsername" placeholder="Uživatelské jméno" required><br>
+    <input type="password" id="loginPassword" placeholder="Heslo" required><br>
+    <button type="submit">Přihlásit</button>
+  </form>
+
+  <button id="logoutButton" style="display: none;" onclick="logout()">Odhlásit se</button>
+
+  <!-- Blogové příspěvky -->
+  <h2>Blogové příspěvky</h2>
+  <div id="posts"></div>
+
+  <script>
+    let authToken = null;
+
+    document.getElementById('loginForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+
+        const response = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            authToken = data.token;
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('logoutButton').style.display = 'block';
+            getAllPosts();
+        } else {
+            alert('Přihlášení selhalo');
+        }
+    };
+
+    function logout() {
+        authToken = null;
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('logoutButton').style.display = 'none';
+        document.getElementById('posts').innerHTML = '';
+    }
+
+    async function getAllPosts() {
+        const response = await fetch('http://localhost:3000/api/blog', {
+            headers: { 'Authorization': authToken }
+        });
+
+        if (response.ok) {
+            const posts = await response.json();
+            document.getElementById('posts').innerHTML = posts.map(post => `
+                <div>
+                    <p><strong>${post.author}</strong>: ${post.content}</p>
+                    <small>${post.created_at}</small>
+                </div>
+            `).join('');
+        }
+    }
+  </script>
+</body>
+</html>
