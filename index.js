@@ -33,7 +33,7 @@ function authenticateToken(req, res, next) {
   const token = req.headers['authorization'];
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
-  jwt.verify(token, SECRET_KEY, (err, user) => {
+  jwt.verify(token.split(' ')[1], SECRET_KEY, (err, user) => {
     if (err) return res.status(403).json({ error: 'Forbidden' });
     req.user = user;
     next();
@@ -86,13 +86,13 @@ app.get('/api/blog', authenticateToken, (req, res) => {
 
 // POST /api/blog - vytvoření nového příspěvku
 app.post('/api/blog', authenticateToken, (req, res) => {
-  const { content, visible_to } = req.body;
+  const { content, visible_to = [] } = req.body; // nastavíme výchozí hodnotu pro visible_to
   const created_at = new Date().toISOString();
   const author = req.user.username;
   const author_id = req.user.id;
 
   db.run(`INSERT INTO blog_posts (content, created_at, author, author_id, visible_to) VALUES (?, ?, ?, ?, ?)`, 
-    [content, created_at, author, author_id, visible_to ? visible_to.join(',') : null], 
+    [content, created_at, author, author_id, visible_to.length ? visible_to.join(',') : null], 
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
       res.status(201).json({ postId: this.lastID });
