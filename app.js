@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 // Použití middleware pro parsování JSON dat
 app.use(express.json());
 
-// Nastavení statických souborů (pokud nějaké máš)
+// Nastavení statických souborů z 'public' složky
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Připojení k databázi (pokud používáš MongoDB nebo jinou databázi)
@@ -19,16 +19,16 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Připojeno k databázi'))
   .catch(err => console.log('Chyba připojení k databázi:', err));
 
-// Model pro příspěvky v blogu (pokud používáš MongoDB)
+// Model pro příspěvky v blogu
 const Post = mongoose.model('Post', new mongoose.Schema({
   author: String,
   content: String,
   createdAt: { type: Date, default: Date.now }
 }));
 
-// Základní route, která vrátí text
+// Základní route, která vrátí 'index.html' pro kořenovou cestu
 app.get('/', (req, res) => {
-  res.send('Hello World! Server běží');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // API route pro získání všech příspěvků
