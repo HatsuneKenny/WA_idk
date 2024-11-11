@@ -11,18 +11,22 @@ async function fetchPosts() {
     const postsContainer = document.getElementById('blog-posts');
     postsContainer.innerHTML = '';  // Vyprázdníme container před zobrazením nových příspěvků
     
-    posts.forEach(post => {
-      const postDiv = document.createElement('div');
-      postDiv.className = 'blog-post';
-      postDiv.innerHTML = `
-        <h3>Autor: ${post.author}</h3>
-        <p>${post.content}</p>
-        <p><small>Vytvořeno: ${new Date(post.createdAt).toLocaleDateString()}</small></p>
-        <button class="edit" onclick="editPost('${post._id}')">Upravit</button>
-        <button class="delete" onclick="deletePost('${post._id}')">Smazat</button>
-      `;
-      postsContainer.appendChild(postDiv);
-    });
+    if (posts.length === 0) {
+      postsContainer.innerHTML = '<p>Žádné příspěvky k zobrazení.</p>';
+    } else {
+      posts.forEach(post => {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'blog-post';
+        postDiv.innerHTML = `
+          <h3>Autor: ${post.author}</h3>
+          <p>${post.content}</p>
+          <p><small>Vytvořeno: ${new Date(post.createdAt).toLocaleDateString()}</small></p>
+          <button class="edit" onclick="editPost('${post._id}')">Upravit</button>
+          <button class="delete" onclick="deletePost('${post._id}')">Smazat</button>
+        `;
+        postsContainer.appendChild(postDiv);
+      });
+    }
   } catch (error) {
     alert(error.message);
   }
@@ -34,6 +38,12 @@ document.getElementById('new-post-form').addEventListener('submit', async (e) =>
   
   const author = document.getElementById('author').value;
   const content = document.getElementById('content').value;
+
+  // Ověření, že autor a obsah nejsou prázdné
+  if (!author || !content) {
+    alert('Prosím vyplňte všechna pole!');
+    return;
+  }
 
   try {
     const response = await fetch(API_URL, {
@@ -76,7 +86,7 @@ async function deletePost(id) {
 async function editPost(id) {
   const newContent = prompt("Zadejte nový obsah příspěvku:");
 
-  if (newContent) {
+  if (newContent && newContent !== "") {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'PATCH',
@@ -92,6 +102,8 @@ async function editPost(id) {
     } catch (error) {
       alert(error.message);
     }
+  } else {
+    alert("Obsah příspěvku nemůže být prázdný!");
   }
 }
 
