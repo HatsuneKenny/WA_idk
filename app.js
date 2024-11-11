@@ -1,5 +1,5 @@
 // Základní URL adresa API na AWS
-const API_URL = "https://moje-api-server-adresa.com/api/blog"; // Nahraďte svou skutečnou URL adresou API na AWS
+const API_URL = "http://52.57.74.67"; // Nahraďte tuto adresu svou skutečnou URL
 
 // Získání a zobrazení všech příspěvků
 async function fetchPosts() {
@@ -44,7 +44,7 @@ document.getElementById('new-post-form').addEventListener('submit', async (e) =>
 
     if (response.ok) {
       const newPost = await response.json(); // získáme identifikátor nového příspěvku
-      console.log("Nový příspěvek ID:", newPost.id); // zobrazí identifikátor v konzoli
+      console.log("Nový příspěvek ID:", newPost._id); // zobrazí identifikátor v konzoli
       await fetchPosts();
       document.getElementById('new-post-form').reset();
     } else {
