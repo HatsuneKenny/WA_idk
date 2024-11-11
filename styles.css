@@ -1,83 +1,80 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 20px;
-  }
-  
-  h1, h2 {
-    color: #333;
-  }
-  
-  #blog-posts {
-    margin-bottom: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-  }
-  
-  .blog-post {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .blog-post h3 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-  }
-  
-  .blog-post p {
-    color: #666;
-  }
-  
-  form {
-    margin-top: 20px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  label, input, textarea {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  input, textarea {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  button.delete, button.edit {
-    background-color: #f44336;
-    margin-right: 10px;
-  }
-  
-  button.delete:hover {
-    background-color: #e53935;
-  }
-  
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+#blog-posts {
+  margin-bottom: 30px;
+}
+
+.blog-post {
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin: 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.blog-post h3 {
+  margin: 0 0 10px;
+}
+
+.blog-post p {
+  margin: 10px 0;
+}
+
+.blog-post button {
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.blog-post button.edit {
+  background-color: #007BFF;
+}
+
+.blog-post button.delete {
+  background-color: #FF4C4C;
+}
+
+.blog-post button:hover {
+  opacity: 0.8;
+}
+
+form {
+  margin-top: 30px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+}
